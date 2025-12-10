@@ -16,10 +16,10 @@ router.get("/",(req,res)=>{
 
 // GET by specific ID request: Retrieve a single friend with email ID
 router.get("/:email",(req,res)=>{
-  // Update the code here
-  res.send("Yet to be implemented")//This line is to be replaced with actual return value
+  const email = req.params.email;
+  const showUser = friends.find(friend => friend.email === email);
+  res.send(showUser)
 });
-
 
 // POST request: Add a new friend
 router.post("/",(req,res)=>{
