@@ -15,11 +15,17 @@ router.get("/",(req,res)=>{
 });
 
 // GET by specific ID request: Retrieve a single friend with email ID
-router.get("/:email",(req,res)=>{
+router.get("/:email", (req, res) => {
   const email = req.params.email;
-  const showUser = friends.find(friend => friend.email === email);
-  res.send(showUser)
+  const user = friends[email];
+
+  if (user) {
+    res.send(user);
+  } else {
+    res.status(404).send("Friend not found");
+  }
 });
+
 
 // POST request: Add a new friend
 router.post("/", function(req, res) {
@@ -28,8 +34,8 @@ router.post("/", function(req, res) {
         // Create or update friend's details based on provided email
         friends[req.body.email] = {
             "firstName": req.body.firstName,
-            // Add similarly for lastName
-            // Add similarly for DOB
+            "lastName": req.body.lastName,
+            "DOB": req.body.DOB
         };
     }
     // Send response indicating user addition
