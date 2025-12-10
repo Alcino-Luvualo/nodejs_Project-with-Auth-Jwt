@@ -69,21 +69,20 @@ app.post("/login", (req, res) => {
         return res.status(404).json({ message: "Error logging in" });
     }
 
-    // Authenticate user
-    if (authenticatedUser(username, password)) {
-        // Generate JWT access token
-        let accessToken = jwt.sign({
-            data: password
-        }, 'access', { expiresIn: 60 * 60 });
+if (authenticatedUser(username, password)) {
+    // Gerar token de acesso JWT
+    let accessToken = jwt.sign({
+        data: password
+    }, 'access', { expiresIn: 60 });
 
-        // Store access token and username in session
-        req.session.authorization = {
-            accessToken, username
-        }
-        return res.status(200).send("User successfully logged in");
-    } else {
-        return res.status(208).json({ message: "Invalid Login. Check username and password" });
+    // Armazenar token de acesso e nome de usuário na sessão
+    req.session.authorization = {
+        accessToken, username
     }
+    return res.status(200).send("Usuário logado com sucesso");
+} else {
+    return res.status(208).json({ message: "Login inválido. Verifique o nome de usuário e a senha" });
+}
 });
 
 // Register a new user
